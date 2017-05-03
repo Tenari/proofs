@@ -1,0 +1,13 @@
+<div>
+  <% params[:tids].split(",").each_with_index do |tid, index| %>
+    <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
+    <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
+  <% end if params[:tids]%>
+</div>
+<h1><%=@theorem.text%></h1>
+<%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id) %>
+<%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+
+<% @theorem.arguments.each do |argument| %>
+  <%= react_component('ShowArgument', argument: argument, tids: params[:tids]) %>
+<% end %>
