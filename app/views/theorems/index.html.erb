@@ -1,12 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Theorems</h1>
+<h1><%=current_user ? "Your " : ""%>Theorems</h1>
 
 <table>
   <thead>
     <tr>
       <th>Text</th>
-      <th>User</th>
+      <% unless current_user %>
+        <th>User</th>
+      <% end %>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,7 +17,9 @@
     <% @theorems.each do |theorem| %>
       <tr>
         <td><%= theorem.text %></td>
-        <td><%= theorem.user_id %></td>
+        <% unless current_user %>
+          <td><%= theorem.user.name %></td>
+        <% end %>
         <td><%= link_to 'Show', theorem %></td>
         <td><%= link_to 'Edit', edit_theorem_path(theorem) %></td>
         <td><%= link_to 'Destroy', theorem, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -26,4 +30,6 @@
 
 <br>
 
+<% if current_user %>
 <%= link_to 'New Theorem', new_theorem_path %>
+<% end %>

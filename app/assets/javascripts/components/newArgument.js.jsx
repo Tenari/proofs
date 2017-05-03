@@ -4,10 +4,11 @@ var NewArgument = React.createClass({
       open: false,
       title: '',
       theorems: [],
+      error: null,
     };
   },
   toggle: function(){
-    this.setState({open: !this.state.open});
+    this.setState({open: !this.state.open, error: null});
   },
   updateTitle: function(e){
     this.setState({title: e.target.value});
@@ -29,6 +30,7 @@ var NewArgument = React.createClass({
     this.setState({theorems: list});
   },
   submit: function(){
+    var that = this;
     $.post({
       url: this.props.createArgumentPath,
       data: {
@@ -38,8 +40,12 @@ var NewArgument = React.createClass({
         },
         theorems: this.state.theorems,
       },
-      success: function(){
-        window.location.reload();
+      success: function(data){
+        if (data && data.error) {
+          that.setState({error: data.error});
+        } else {
+          window.location.reload();
+        }
       },
     })
   },
@@ -48,7 +54,13 @@ var NewArgument = React.createClass({
       var updateTheorem = this.updateTheorem;
       var addTheorem = this.addTheorem;
       var removeTheorem = this.removeTheorem;
+      var error = null;
+      if (this.state.error) {
+        error = <p>{this.state.error}</p>;
+      }
+
       return <div className="new-argument">
+        {error}
         <div>Title: <input type="text" value={this.state.title} onChange={this.updateTitle}/></div>
         <ol>
           {_.map(this.state.theorems, function(theorem, index){

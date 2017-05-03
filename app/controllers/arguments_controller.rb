@@ -25,11 +25,14 @@ class ArgumentsController < ApplicationController
   # POST /arguments.json
   def create
     @argument = Argument.new(argument_params)
+    @argument.user = current_user
+    return render json: {error: 'need at least one supporting theorem'} unless params[:theorems] && params[:theorems].count > 0
 
     if @argument.save
       params[:theorems].each do |string|
-        @argument.theorems.create(text: string)
+        @argument.theorems.create(text: string, user: current_user)
       end
+      @argument.theorem.updated! # mark the originating theorem as updated, b/c someone added a new argument to it
       render :show, status: :created, location: @argument
     else
       render json: @argument.errors, status: :unprocessable_entity

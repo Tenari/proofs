@@ -16,7 +16,7 @@ var ShowArgument = React.createClass({
   deleteTheorem: function(id){
     $.ajax({
       type: 'DELETE',
-      url: '/theorems/'+id,
+      url: '/theorems/'+id+"?argument_id="+this.state.argument.id,
       success: function(){
         window.location.reload();
       },
@@ -35,18 +35,30 @@ var ShowArgument = React.createClass({
     var tids = this.props.tids || "";
     if (tids.length > 0) tids += ",";
     var state = this.state;
+    var user = this.props.user;
     var argument = this.state.argument;
     var changeTheorem = this.changeTheorem;
     var deleteTheorem = this.deleteTheorem;
 
+    var controlButtons = null;
+    if (user) {
+      controlButtons = <div>
+        <button onClick={this.toggleEditMode}>{this.state.editMode ? "Cancel" : "Edit"}</button>
+        <button onClick={this.deleteArgument}>Delete</button>
+      </div>;
+    }
+
     return <div className="argument">
       <p className="argument-title">{argument.title}</p>
-      <button onClick={this.toggleEditMode}>{this.state.editMode ? "Cancel" : "Edit"}</button>
-      <button onClick={this.deleteArgument}>Delete</button>
+      {controlButtons}
       <ol>
         {_.map(argument.theorems, function(theorem, index){
           var linkUrl = "/theorems/"+theorem.id + "?tids="+tids+argument.theorem_id;
-          var link = <a href={linkUrl}>add support</a>;
+
+          var link = null;
+          if (user && user.id == theorem.user_id) {
+            link = <a href={linkUrl}>add support</a>;
+          }
           if (theorem.source) {
             link = <a href={theorem.source} target="_blank">source</a>;
           }

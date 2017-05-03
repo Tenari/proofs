@@ -4,7 +4,8 @@ class TheoremsController < ApplicationController
   # GET /theorems
   # GET /theorems.json
   def index
-    @theorems = Theorem.all
+    puts current_user
+    @theorems = current_user ? Theorem.where(user: current_user).order('updated_at desc') : Theorem.all.limit(50)
   end
 
   # GET /theorems/1
@@ -15,16 +16,20 @@ class TheoremsController < ApplicationController
   # GET /theorems/new
   def new
     @theorem = Theorem.new
+    authorize! :create, @theorem
   end
 
   # GET /theorems/1/edit
   def edit
+    authorize! :update, Theorem
   end
 
   # POST /theorems
   # POST /theorems.json
   def create
     @theorem = Theorem.new(theorem_params)
+    @theorem.user = current_user
+    authorize! :create, @theorem
 
     respond_to do |format|
       if @theorem.save
@@ -40,6 +45,7 @@ class TheoremsController < ApplicationController
   # PATCH/PUT /theorems/1
   # PATCH/PUT /theorems/1.json
   def update
+    authorize! :update, @theorem
     if @theorem.update(theorem_params)
       render :show, status: :ok, location: @theorem
     else
@@ -50,8 +56,16 @@ class TheoremsController < ApplicationController
   # DELETE /theorems/1
   # DELETE /theorems/1.json
   def destroy
-    @theorem.destroy
-    head :no_content
+    if params[:argument_id]
+      authorize! :update, Argument.find(params[:argument_id])
+      at = ArgumentsTheorem.where(argument_id: params[:argument_id], theorem_id: @theorem.id)
+      at.delete_all
+      head :no_content
+    else
+      authorize! :destroy, @theorem
+      @theorem.destroy
+      head :no_content
+    end
   end
 
   private

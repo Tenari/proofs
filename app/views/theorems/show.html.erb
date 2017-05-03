@@ -5,9 +5,15 @@
   <% end if params[:tids]%>
 </div>
 <h1><%=@theorem.text%></h1>
-<%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id) %>
-<%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+<% if can? :update, @theorem %>
+  <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
+  <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+<% end %>
+
+<% if @theorem.arguments.count == 0 %>
+  <p>This is currently an unsupported claim.</p>
+<% end %>
 
 <% @theorem.arguments.each do |argument| %>
-  <%= react_component('ShowArgument', argument: argument, tids: params[:tids]) %>
+  <%= react_component('ShowArgument', argument: argument, tids: params[:tids], user: current_user) %>
 <% end %>
