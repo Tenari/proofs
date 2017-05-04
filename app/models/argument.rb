@@ -5,6 +5,6 @@ class Argument < ActiveRecord::Base
   belongs_to :user
 
   def as_json(options)
-    super(methods: [], only: [:id, :title, :theorem_id, :user_id, :ordered]).merge(theorems: self.theorems.map(&:to_h))
+    super(methods: [], only: [:id, :title, :theorem_id, :user_id, :ordered]).merge(theorems: self.theorems.order('arguments_theorems.order asc').map(&:to_h))
   end
 end
