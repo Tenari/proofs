@@ -12,8 +12,14 @@
     //justify-content: space-between;
     &:hover {
       background-color: darken(#f9f9f9, 5%);
+      a.object-link {
+        display: inline;
+      }
     }
     
+    a.object-link {
+      display: none;
+    }
     a.objections-link {
       color: red;
       &:hover, &:visited, &:active {

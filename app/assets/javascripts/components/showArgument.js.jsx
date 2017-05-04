@@ -102,10 +102,10 @@ var ShowArgument = React.createClass({
         objections = <a className="objections-link" href={"/theorems/"+theorem.id+"/objections"}>[{theorem.objections_count} objections]</a>;
       }
 
-      var objection = <a href={props.signInPath}>Sign In to Object</a>;
+      var objection = <a className="object-link" href={props.signInPath}>Sign In to Object</a>;
       if (user) {
         if (user.id != theorem.user_id) {
-          objection = <a href={props.newObjectionPath + "?objection_id=" + theorem.id}>I object!</a>;
+          objection = <a className="object-link" href={props.newObjectionPath + "?objection_id=" + theorem.id}>I object!</a>;
         } else {
           objection = null;
         }

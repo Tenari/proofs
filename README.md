@@ -1,6 +1,7 @@
 # Bugs
 
 - it can be hard to find a theorem someone else made
+- cannot add another theorem to an argument
 
 # Ideas
 
