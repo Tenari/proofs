@@ -1,0 +1,12 @@
+<h1>Objections to <%=@theorem.text%></h1>
+
+<% @theorem.objections.each do |obj|
+   obj_theorem = obj.counter_theorem
+%>
+  <div class="objection">
+    <%=link_to_if(obj_theorem.arguments.count > 0, obj_theorem.text, theorem_path(obj_theorem))%>
+    <% if obj_theorem.source %>
+      <%= link_to "source", obj_theorem.source %>
+    <% end %>
+  </div>
+<% end %>

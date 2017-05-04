@@ -15,6 +15,10 @@
     <%= f.label :text %><br>
     <%= f.text_field :text %>
   </div>
+
+  <% if params[:objection_id] %>
+    <%= hidden_field_tag :objection_id, params[:objection_id] %>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

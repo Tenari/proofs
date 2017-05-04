@@ -1,5 +1,9 @@
 <h1>New Theorem</h1>
 
+<% if @objection %>
+  <h3>Objection to: <%=link_to_if @objection.arguments.count > 0, @objection.text, theorem_path(@objection)%></h3>
+<% end %>
+
 <%= render 'form' %>
 
 <%= link_to 'Back', theorems_path %>

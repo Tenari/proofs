@@ -15,5 +15,11 @@
 <% end %>
 
 <% @theorem.arguments.each do |argument| %>
-  <%= react_component('ShowArgument', argument: argument, tids: params[:tids], user: current_user) %>
+  <%= react_component('ShowArgument',
+    argument: argument,
+    tids: params[:tids],
+    user: current_user,
+    signInPath: user_omniauth_authorize_path(:facebook),
+    newObjectionPath: new_theorem_path,
+  ) %>
 <% end %>

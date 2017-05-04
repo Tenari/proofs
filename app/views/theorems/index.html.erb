@@ -21,7 +21,6 @@
           <td><%= theorem.user.name %></td>
         <% end %>
         <td><%= link_to 'Show', theorem %></td>
-        <td><%= link_to 'Edit', edit_theorem_path(theorem) %></td>
         <td><%= link_to 'Destroy', theorem, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

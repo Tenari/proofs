@@ -1,5 +1,5 @@
 class TheoremsController < ApplicationController
-  before_action :set_theorem, only: [:show, :edit, :update, :destroy]
+  before_action :set_theorem, only: [:show, :objections, :edit, :update, :destroy]
 
   # GET /theorems
   # GET /theorems.json
@@ -13,10 +13,14 @@ class TheoremsController < ApplicationController
   def show
   end
 
+  def objections
+  end
+
   # GET /theorems/new
   def new
     @theorem = Theorem.new
     authorize! :create, @theorem
+    @objection = Theorem.find(params[:objection_id]) if params[:objection_id]
   end
 
   # GET /theorems/1/edit
@@ -33,6 +37,9 @@ class TheoremsController < ApplicationController
 
     respond_to do |format|
       if @theorem.save
+        if params[:objection_id]
+          Objection.create(theorem_id: params[:objection_id], counter_theorem_id: @theorem.id)
+        end
         format.html { redirect_to @theorem, notice: 'Theorem was successfully created.' }
         format.json { render :show, status: :created, location: @theorem }
       else
@@ -47,7 +54,7 @@ class TheoremsController < ApplicationController
   def update
     authorize! :update, @theorem
     if @theorem.update(theorem_params)
-      render :show, status: :ok, location: @theorem
+      render json: @theorem, status: :ok, location: @theorem
     else
       render json: @theorem.errors, status: :unprocessable_entity
     end

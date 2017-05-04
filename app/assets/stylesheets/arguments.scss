@@ -7,4 +7,26 @@
   background-color: #f9f9f9;
   padding: 20px;
   margin-top: 10px;
+  .argument-theorem {
+    //display: flex;
+    //justify-content: space-between;
+    &:hover {
+      background-color: darken(#f9f9f9, 5%);
+    }
+    
+    a.objections-link {
+      color: red;
+      &:hover, &:visited, &:active {
+        color: darken(red, 10%);
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.new-argument {
+  border: 1px solid black;
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-top: 10px;
 }

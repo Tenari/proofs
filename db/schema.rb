@@ -11,14 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503013609) do
+ActiveRecord::Schema.define(version: 20170503175421) do
 
   create_table "arguments", force: :cascade do |t|
     t.string   "title"
     t.integer  "user_id"
     t.integer  "theorem_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "ordered",    default: true
   end
 
   create_table "arguments_theorems", force: :cascade do |t|
