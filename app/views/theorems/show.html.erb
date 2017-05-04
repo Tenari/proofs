@@ -7,11 +7,15 @@
 <h1><%=@theorem.text%></h1>
 <% if can? :update, @theorem %>
   <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
-  <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+  <% unless @theorem.source %>
+    <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+  <% end %>
 <% end %>
 
-<% if @theorem.arguments.count == 0 %>
+<% if @theorem.arguments.count == 0 && @theorem.source.nil?%>
   <p>This is currently an unsupported claim.</p>
+<% elsif @theorem.source %>
+  <p>Source supporting the claim: <%= link_to @theorem.source, @theorem.source %></p>
 <% end %>
 
 <% @theorem.arguments.each do |argument| %>
