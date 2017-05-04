@@ -1,19 +1,9 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @argument.title %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @argument.user_id %>
-</p>
-
-<p>
-  <strong>Theorem:</strong>
-  <%= @argument.theorem_id %>
-</p>
-
-<%= link_to 'Edit', edit_argument_path(@argument) %> |
-<%= link_to 'Back', arguments_path %>
+<p>An argument supporting the theorem: <a href="<%=theorem_path @argument.theorem%>"><%=@argument.theorem.text%></a></p>
+<%= react_component('ShowArgument',
+  argument: @argument,
+  tids: params[:tids],
+  user: current_user,
+  signInPath: user_omniauth_authorize_path(:facebook),
+  newObjectionPath: new_theorem_path,
+) %>

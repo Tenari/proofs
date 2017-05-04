@@ -127,7 +127,7 @@ var ShowArgument = React.createClass({
     }
 
     return <div className="argument">
-      <p className="argument-title">{argument.title}</p>
+      <a href={"/arguments/"+argument.id} className="argument-title">{argument.title}</a>
       {controlButtons}
       {theoremsList}
     </div>;

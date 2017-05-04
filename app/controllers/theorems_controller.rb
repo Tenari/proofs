@@ -25,7 +25,7 @@ class TheoremsController < ApplicationController
 
   # GET /theorems/1/edit
   def edit
-    authorize! :update, Theorem
+    authorize! :update, @theorem
   end
 
   # POST /theorems
