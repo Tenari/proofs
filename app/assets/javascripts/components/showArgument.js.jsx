@@ -21,21 +21,44 @@ var ShowArgument = React.createClass({
     argument.theorems[index].text = str.substr(0,255);
     this.setState({argument: argument});
   },
+  addTheorem: function(){
+    var arg = this.state.argument;
+    arg.theorems.push({text: ''});
+    this.setState({argument: arg});
+  },
   saveChanges: function(){
     var that = this;
-    _.each(this.state.argument.theorems, function(theorem){
-      $.ajax({
-        type: 'PUT',
-        url: '/theorems/'+theorem.id,
-        data: {
-          theorem: {
-            text: theorem.text,
-          }
-        },
-        success: function(data){
-          that.toggleEditMode();
-        },
-      })
+    _.each(this.state.argument.theorems, function(theorem, index){
+      if (theorem.id) { // just update it
+        $.ajax({
+          type: 'PUT',
+          url: '/theorems/'+theorem.id,
+          data: {
+            theorem: {
+              text: theorem.text,
+            }
+          },
+          success: function(data){
+            that.setState({editMode: false});
+          },
+        })
+      } else { // gotta create it
+        $.ajax({
+          type: 'POST',
+          url: '/theorems.json',
+          data: {
+            theorem: {
+              text: theorem.text,
+            },
+            argument_id: that.state.argument.id,
+          },
+          success: function(data){
+            var arg = that.state.argument;
+            arg.theorems[index] = data;
+            that.setState({editMode: false, argument: arg});
+          },
+        })
+      }
     })
   },
   deleteTheorem: function(id){
@@ -65,6 +88,7 @@ var ShowArgument = React.createClass({
     var argument = this.state.argument;
     var changeTheorem = this.changeTheorem;
     var deleteTheorem = this.deleteTheorem;
+    var addTheorem = this.addTheorem;
 
     var controlButtons = null;
     if (user && user.id == argument.user_id) {
@@ -73,6 +97,10 @@ var ShowArgument = React.createClass({
         <button onClick={this.saveChanges} className={this.state.editMode ? '' : 'hide'}>Save</button>
         <button onClick={this.deleteArgument}>Delete</button>
       </div>;
+    }
+    var addTheoremButton = null;
+    if (state.editMode) {
+      addTheoremButton = <button onClick={addTheorem}>Add Theorem</button>;
     }
 
     var theorems = _.map(argument.theorems, function(theorem, index){
@@ -130,6 +158,7 @@ var ShowArgument = React.createClass({
       <a href={"/arguments/"+argument.id} className="argument-title">{argument.title}</a>
       {controlButtons}
       {theoremsList}
+      {addTheoremButton}
     </div>;
   },
 })

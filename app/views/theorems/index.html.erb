@@ -6,9 +6,8 @@
   <thead>
     <tr>
       <th>Text</th>
-      <% unless current_user %>
-        <th>User</th>
-      <% end %>
+      <th>Supported?</th>
+      <th>User</th>
       <th></th>
     </tr>
   </thead>
@@ -17,10 +16,13 @@
     <% @theorems.each do |theorem| %>
       <tr>
         <td><%= link_to theorem.text, theorem %></td>
-        <% unless current_user %>
-          <td><%= theorem.user.name %></td>
+        <td><%= theorem.supported? ? 'Yes' : 'No'%></td>
+        <td><%= theorem.user.name %></td>
+        <% if current_user && current_user.id == theorem.user_id %>
+          <td><%= link_to 'Destroy', theorem, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+          <td></td>
         <% end %>
-        <td><%= link_to 'Destroy', theorem, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,6 +30,9 @@
 
 <br>
 
-<% if current_user %>
-<%= link_to 'New Theorem', new_theorem_path %>
-<% end %>
+<div>
+  <% if current_user %>
+    <%= link_to 'New Theorem', new_theorem_path %>
+  <% end %>
+  <%= link_to "Arguments", arguments_path %>
+</div>

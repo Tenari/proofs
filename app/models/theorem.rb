@@ -14,6 +14,10 @@ class Theorem < ActiveRecord::Base
     self.save
   end
 
+  def supported?
+    return self.source || self.arguments.count > 0
+  end
+
   def to_h
     {
       id: self.id,

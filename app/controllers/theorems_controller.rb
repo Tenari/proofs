@@ -4,8 +4,12 @@ class TheoremsController < ApplicationController
   # GET /theorems
   # GET /theorems.json
   def index
-    puts current_user
-    @theorems = current_user ? Theorem.where(user: current_user).order('updated_at desc') : Theorem.all.limit(50)
+    @theorems = Theorem.all.order('updated_at desc').limit(50)
+    if params[:scope]
+      if params[:scope] == 'user' && current_user
+        @theorems = Theorem.where(user: current_user).order('updated_at desc')
+      end
+    end
   end
 
   # GET /theorems/1
@@ -40,8 +44,11 @@ class TheoremsController < ApplicationController
         if params[:objection_id]
           Objection.create(theorem_id: params[:objection_id], counter_theorem_id: @theorem.id)
         end
+        if params[:argument_id]
+          ArgumentsTheorem.create(argument_id: params[:argument_id], theorem_id: @theorem.id)
+        end
         format.html { redirect_to @theorem, notice: 'Theorem was successfully created.' }
-        format.json { render :show, status: :created, location: @theorem }
+        format.json { render json: @theorem.to_h }
       else
         format.html { render :new }
         format.json { render json: @theorem.errors, status: :unprocessable_entity }
