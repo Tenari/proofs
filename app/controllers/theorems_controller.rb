@@ -4,12 +4,18 @@ class TheoremsController < ApplicationController
   # GET /theorems
   # GET /theorems.json
   def index
-    @theorems = Theorem.all.order('updated_at desc').limit(50)
-    if params[:scope]
-      if params[:scope] == 'user' && current_user
-        @theorems = Theorem.where(user: current_user).order('updated_at desc')
-      end
-    end
+    @query = params[:query] || {
+      search: '',
+      filters: {mine: true},
+    }
+    @theorems = Theorem.all.where(root: true).order('updated_at desc').limit(50)
+    @theorems = @theorems.where(user_id: current_user.id) if @query[:filters][:mine]
+    @theorems = @theorems.where('text ILIKE ?', "#{@query[:search]}%") if @query[:search] && @query[:search].length > 0
+#    if params[:scope]
+#      if params[:scope] == 'user' && current_user
+#        @theorems = Theorem.where(user: current_user).order('updated_at desc')
+#      end
+#    end
   end
 
   # GET /theorems/1
@@ -90,6 +96,6 @@ class TheoremsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def theorem_params
-      params.require(:theorem).permit(:text, :user_id, :source)
+      params.require(:theorem).permit(:text, :user_id, :source, :root)
     end
 end

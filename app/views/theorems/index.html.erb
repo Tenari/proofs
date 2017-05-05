@@ -1,34 +1,8 @@
 <p id="notice"><%= notice %></p>
 
-<h1><%=current_user ? "Your " : ""%>Theorems</h1>
+<%= react_component('TheoremList', theorems: @theorems, query: @query) %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Text</th>
-      <th>Supported?</th>
-      <th>User</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @theorems.each do |theorem| %>
-      <tr>
-        <td><%= link_to theorem.text, theorem %></td>
-        <td><%= theorem.supported? ? 'Yes' : 'No'%></td>
-        <td><%= theorem.user.name %></td>
-        <% if current_user && current_user.id == theorem.user_id %>
-          <td><%= link_to 'Destroy', theorem, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% else %>
-          <td></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+<hr>
 
 <div>
   <% if current_user %>

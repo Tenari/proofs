@@ -10,11 +10,18 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
  *= require_self
+ *= require_tree .
  */
 
- .hide {
-   display:none;
- }
- input[type="text"] { width: 80%;}
+.hide {
+  display:none;
+}
+input[type="text"] { width: 80%;}
+
+button {
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 3px;
+  font-family: "Lucida Console", Monaco, monospace;
+}

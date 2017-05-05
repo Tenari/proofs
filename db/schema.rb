@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503175421) do
+ActiveRecord::Schema.define(version: 20170504202928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,12 +40,24 @@ ActiveRecord::Schema.define(version: 20170503175421) do
     t.datetime "updated_at",         null: false
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.integer  "object_id"
+    t.string   "object_type"
+    t.string   "text"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "tags", ["object_id", "object_type"], name: "index_tags_on_object_id_and_object_type", using: :btree
+  add_index "tags", ["text"], name: "index_tags_on_text", using: :btree
+
   create_table "theorems", force: :cascade do |t|
     t.string   "text"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "source"
+    t.boolean  "root",       default: false
   end
 
   create_table "users", force: :cascade do |t|

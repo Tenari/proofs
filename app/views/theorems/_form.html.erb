@@ -16,6 +16,12 @@
     <%= f.text_field :text %>
   </div>
 
+  <div class="field">
+    <%= f.label :root %><br>
+    <%= f.radio_button :root, true %> Yes
+    <%= f.radio_button :root, false %> No
+  </div>
+
   <% if params[:objection_id] %>
     <%= hidden_field_tag :objection_id, params[:objection_id] %>
   <% end %>
