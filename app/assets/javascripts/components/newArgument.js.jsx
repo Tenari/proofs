@@ -92,7 +92,7 @@ var NewArgument = React.createClass({
         </div>
       </div>;
     } else {
-      return <button onClick={this.toggle}>Add a new argument to support this theorem</button>;
+      return <button onClick={this.toggle} title="Add a new argument to support this theorem">New argument</button>;
     }
   },
 })

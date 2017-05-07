@@ -1,12 +1,22 @@
-// Place all the styles related to the Arguments controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'prefixer.css.less';
 
 .argument {
-  border: 1px solid black;
-  background-color: #f9f9f9;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-radius: 2px;
   padding: 20px;
   margin-top: 10px;
+  .argument-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .argument-control-buttons {
+    margin-bottom: 10px;
+    button {
+      margin-right: 10px;
+    }
+  }
   .argument-theorem {
     //display: flex;
     //justify-content: space-between;

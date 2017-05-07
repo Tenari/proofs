@@ -9,7 +9,7 @@ class TheoremsController < ApplicationController
       filters: {mine: true},
     }
     @theorems = Theorem.all.where(root: true).order('updated_at desc').limit(50)
-    @theorems = @theorems.where(user_id: current_user.id) if @query[:filters][:mine]
+    @theorems = @theorems.where(user_id: current_user.id) if @query[:filters][:mine] && current_user
     @theorems = @theorems.where('text ILIKE ?', "#{@query[:search]}%") if @query[:search] && @query[:search].length > 0
 #    if params[:scope]
 #      if params[:scope] == 'user' && current_user

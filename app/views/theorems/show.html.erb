@@ -1,29 +1,34 @@
-<div>
-  <% params[:tids].split(",").each_with_index do |tid, index| %>
-    <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
-    <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
-  <% end if params[:tids]%>
-</div>
-<h1><%=@theorem.text%></h1>
-<% if can? :update, @theorem %>
-  <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
-  <% unless @theorem.source %>
-    <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+<div class="page-container">
+  <div>
+    <% params[:tids].split(",").each_with_index do |tid, index| %>
+      <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
+      <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
+    <% end if params[:tids]%>
+  </div>
+  <h1><%=@theorem.text%></h1>
+
+  <div class="theorem-control-buttons">
+    <% if can? :update, @theorem %>
+      <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
+      <% unless @theorem.source %>
+        <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @theorem.arguments.count == 0 && @theorem.source.nil?%>
+    <p>This is currently an unsupported claim.</p>
+  <% elsif @theorem.source %>
+    <p>Source supporting the claim: <%= link_to @theorem.source, @theorem.source %></p>
   <% end %>
-<% end %>
 
-<% if @theorem.arguments.count == 0 && @theorem.source.nil?%>
-  <p>This is currently an unsupported claim.</p>
-<% elsif @theorem.source %>
-  <p>Source supporting the claim: <%= link_to @theorem.source, @theorem.source %></p>
-<% end %>
-
-<% @theorem.arguments.each do |argument| %>
-  <%= react_component('ShowArgument',
-    argument: argument,
-    tids: params[:tids],
-    user: current_user,
-    signInPath: user_omniauth_authorize_path(:facebook),
-    newObjectionPath: new_theorem_path,
-  ) %>
-<% end %>
+  <% @theorem.arguments.each do |argument| %>
+    <%= react_component('ShowArgument',
+      argument: argument,
+      tids: params[:tids],
+      user: current_user,
+      signInPath: user_omniauth_authorize_path(:facebook),
+      newObjectionPath: new_theorem_path,
+    ) %>
+  <% end %>
+</div>

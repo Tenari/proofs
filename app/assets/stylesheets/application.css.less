@@ -10,8 +10,8 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_self
  *= require_tree .
+ *= require_self
  */
 
 .hide {
@@ -23,5 +23,36 @@ button {
   border: 1px solid black;
   border-radius: 2px;
   padding: 3px;
-  font-family: "Lucida Console", Monaco, monospace;
+  font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+div, span, p {
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+a {
+  color: #f00;
+  text-decoration: none;
+  font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  &:hover {
+    color: #dd3333;
+    text-decoration: underline;
+  }
+}
+
+.page-container {
+  width: 980px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
 }

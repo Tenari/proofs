@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <% link = current_user ? arguments_path : '/' %>
+  <% link = current_user ? theorems_path : '/' %>
   <div class="site-header"><a href="<%=link%>">Most people purporting to wisdom dare not engage in dialogue, lest they reveal the paucity of their assumptions and the frailty of their convictions.</a></div>
   <% if !user_signed_in? %>
     <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>

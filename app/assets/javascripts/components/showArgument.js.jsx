@@ -92,7 +92,7 @@ var ShowArgument = React.createClass({
 
     var controlButtons = null;
     if (user && user.id == argument.user_id) {
-      controlButtons = <div>
+      controlButtons = <div className="argument-control-buttons">
         <button onClick={this.toggleEditMode}>{this.state.editMode ? "Cancel" : "Edit"}</button>
         <button onClick={this.saveChanges} className={this.state.editMode ? '' : 'hide'}>Save</button>
         <button onClick={this.deleteArgument}>Delete</button>
