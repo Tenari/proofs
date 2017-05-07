@@ -8,11 +8,10 @@ var ShowArgument = React.createClass({
   },
   toggleEditMode: function(){
     if (this.state.editMode) {
-      var arg = this.state.argument;
-      arg.theorems = JSON.parse(this.state.original);
+      var arg = JSON.parse(this.state.original);
       this.setState({argument: arg, original: ''});
     } else {
-      this.setState({original: JSON.stringify(this.state.argument.theorems)});
+      this.setState({original: JSON.stringify(this.state.argument)});
     }
     this.setState({editMode: !this.state.editMode});
   },
@@ -21,14 +20,22 @@ var ShowArgument = React.createClass({
     argument.theorems[index].text = str.substr(0,255);
     this.setState({argument: argument});
   },
+  changeTitle: function(e){
+    var argument = this.state.argument;
+    argument.title = e.target.value;
+    this.setState({argument: argument});
+  },
   addTheorem: function(){
     var arg = this.state.argument;
-    arg.theorems.push({text: ''});
+    arg.theorems.push({user_id: this.state.argument.user_id, text: ''});
     this.setState({argument: arg});
   },
   saveChanges: function(){
     var that = this;
+    var original = JSON.parse(this.state.original);
     _.each(this.state.argument.theorems, function(theorem, index){
+      if (original.theorems[index] && original.theorems[index].text == theorem.text) return false;
+
       if (theorem.id) { // just update it
         $.ajax({
           type: 'PUT',
@@ -58,6 +65,20 @@ var ShowArgument = React.createClass({
             that.setState({editMode: false, argument: arg});
           },
         })
+      }
+    })
+    if (original.title == this.state.argument.title) return false;
+    // update the title also
+    $.ajax({
+      type: 'PUT',
+      url: '/arguments/'+this.state.argument.id,
+      data: {
+        argument: {
+          title: this.state.argument.title,
+        }
+      },
+      success: function() {
+        that.setState({editMode: false});
       }
     })
   },
@@ -154,8 +175,17 @@ var ShowArgument = React.createClass({
       theoremsList = <ol>{theorems}</ol>;
     }
 
+    var argumentTitle = <div className="argument-title">
+      <a href={"/arguments/"+argument.id}>{argument.title}</a>
+    </div>;
+    if (state.editMode) {
+      argumentTitle = <div className="argument-title">
+        <input type="text" value={argument.title} onChange={this.changeTitle}/>
+      </div>
+    }
+
     return <div className="argument">
-      <a href={"/arguments/"+argument.id} className="argument-title">{argument.title}</a>
+      {argumentTitle}
       {controlButtons}
       {theoremsList}
       {addTheoremButton}

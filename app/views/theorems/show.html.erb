@@ -1,12 +1,4 @@
 <div class="page-container">
-  <div>
-    <% params[:tids].split(",").each_with_index do |tid, index| %>
-      <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
-      <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
-    <% end if params[:tids]%>
-  </div>
-  <h1><%=@theorem.text%></h1>
-
   <div class="theorem-control-buttons">
     <% if can? :update, @theorem %>
       <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
@@ -15,6 +7,14 @@
       <% end %>
     <% end %>
   </div>
+
+  <div>
+    <% params[:tids].split(",").each_with_index do |tid, index| %>
+      <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
+      <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
+    <% end if params[:tids]%>
+  </div>
+  <h1><%=@theorem.text%></h1>
 
   <% if @theorem.arguments.count == 0 && @theorem.source.nil?%>
     <p>This is currently an unsupported claim.</p>

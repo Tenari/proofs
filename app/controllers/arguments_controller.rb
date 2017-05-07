@@ -48,14 +48,10 @@ class ArgumentsController < ApplicationController
   # PATCH/PUT /arguments/1.json
   def update
     authorize! :update, @argument
-    respond_to do |format|
-      if @argument.update(argument_params)
-        format.html { redirect_to @argument, notice: 'Argument was successfully updated.' }
-        format.json { render :show, status: :ok, location: @argument }
-      else
-        format.html { render :edit }
-        format.json { render json: @argument.errors, status: :unprocessable_entity }
-      end
+    if @argument.update(argument_params)
+      render json: @argument
+    else
+      render json: @argument.errors, status: :unprocessable_entity
     end
   end
 

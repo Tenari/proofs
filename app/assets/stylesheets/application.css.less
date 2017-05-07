@@ -20,20 +20,27 @@
 input[type="text"] { width: 80%;}
 
 button {
-  border: 1px solid black;
-  border-radius: 2px;
-  padding: 3px;
+  border: 1px solid #333;//#e23d3d;
+  background-color: white;
+  color: #333;
+  border-radius: 999em;
+  padding: 3px 12px;
+  height: 33px;
   font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
   cursor: pointer;
+  &:hover {
+    border: 1px solid #e23d3d;
+    color: red;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
   font-weight: bold;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 div, span, p {
@@ -41,11 +48,11 @@ div, span, p {
 }
 
 a {
-  color: #f00;
+  color: #e23d3d;
   text-decoration: none;
   font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
   &:hover {
-    color: #dd3333;
+    color: red;
     text-decoration: underline;
   }
 }
