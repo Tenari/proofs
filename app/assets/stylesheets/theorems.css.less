@@ -1,17 +1,12 @@
 @import "prefixer.css.less";
 
-span.selector {
-  background-color: #aeaeae;
-  color: black;
-  padding: 5px;
-  border: 1px solid #2462a5;
-  border-radius: 2px;
+.selector {
   display: inline-block;
   cursor: pointer;
   user-select: none;
   &.active {
     color: white;
-    background-color: #2a70ba;
+    background-color: #e23d3d;
   }
 }
 
@@ -22,9 +17,11 @@ span.selector {
     border-bottom: 1px solid black;
     .search-bar {
       .flex-grow(2);
-      input {
-        border: 1px solid black;
-        padding: 5px;
+      button {
+        position: relative;
+        left: -60px;
+        top: -2px;
+        height: 30px;
       }
     }
   }
@@ -44,12 +41,16 @@ span.selector {
       }
       .header {
         .flex-block();
+        .justify-content(space-between);
         margin-bottom: 10px;
         .title {
           font-size: 18px;
           font-weight: bold;
           line-height: 21px;
           cursor: pointer;
+        }
+        .views {
+          font-weight: bold;
         }
       }
       .body {

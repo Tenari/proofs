@@ -8,9 +8,18 @@ class TheoremsController < ApplicationController
       search: '',
       filters: {mine: true},
     }
-    @theorems = Theorem.all.where(root: true).order('updated_at desc').limit(50)
-    @theorems = @theorems.where(user_id: current_user.id) if @query[:filters][:mine] && current_user
+    @theorems = Theorem.all.where(root: true).limit(50)
+    if current_user
+      @theorems = @theorems.where(user_id: current_user.id) if @query[:filters][:mine]
+      @theorems = @theorems.order('updated_at desc')
+    else
+      @theorems = @theorems.order('views desc')
+    end
     @theorems = @theorems.where('text ILIKE ?', "#{@query[:search]}%") if @query[:search] && @query[:search].length > 0
+    respond_to do |f|
+      f.html { render 'index' }
+      f.json { render json: @theorems }
+    end
 #    if params[:scope]
 #      if params[:scope] == 'user' && current_user
 #        @theorems = Theorem.where(user: current_user).order('updated_at desc')
@@ -21,6 +30,7 @@ class TheoremsController < ApplicationController
   # GET /theorems/1
   # GET /theorems/1.json
   def show
+    @theorem.viewed!
   end
 
   def objections

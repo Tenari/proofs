@@ -1,20 +1,25 @@
 <div class="page-container">
-  <div class="theorem-control-buttons">
-    <% if can? :update, @theorem %>
-      <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
-      <% unless @theorem.source %>
-        <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
-      <% end %>
-    <% end %>
-  </div>
-
   <div>
     <% params[:tids].split(",").each_with_index do |tid, index| %>
       <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
       <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
     <% end if params[:tids]%>
   </div>
+
+  <div class="theorem-control-buttons">
+    <% if can? :update, @theorem %>
+      <button title="Add a new argument to support this theorem" id="new-argument">New Argument</button>
+      <% unless @theorem.source %>
+        <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+      <% end %>
+    <% end %>
+  </div>
+
   <h1><%=@theorem.text%></h1>
+
+  <% if can? :update, @theorem %>
+    <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
+  <% end %>
 
   <% if @theorem.arguments.count == 0 && @theorem.source.nil?%>
     <p>This is currently an unsupported claim.</p>
@@ -32,3 +37,11 @@
     ) %>
   <% end %>
 </div>
+
+<script>
+  $(function(){
+    $('#new-argument').click(function(e) {
+       $(window).trigger('new-argument-toggle');
+    })
+  })
+</script>

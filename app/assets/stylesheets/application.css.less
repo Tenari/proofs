@@ -17,7 +17,18 @@
 .hide {
   display:none;
 }
-input[type="text"] { width: 80%;}
+input[type="text"] {
+  width: 80%;
+  border: 1px solid #333;//#e23d3d;
+  border-radius: 999em;
+  padding: 5px 12px;
+  font-size: 16px;
+  font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 1px 1px rgba(255,0,0,0.5);
+  }
+}
 
 button {
   border: 1px solid #333;//#e23d3d;

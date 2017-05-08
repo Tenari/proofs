@@ -8,6 +8,12 @@ var NewArgument = React.createClass({
       ordered: true,
     };
   },
+  componentDidMount: function(){
+    var that = this;
+    $(window).on('new-argument-toggle', function(){
+      that.toggle();
+    });
+  },
   toggle: function(){
     this.setState({open: !this.state.open, error: null});
   },
@@ -80,8 +86,8 @@ var NewArgument = React.createClass({
 
       return <div className="new-argument">
         {error}
-        <div>Argument type: <span className={classNames({selector:true, active: this.state.ordered})} onClick={() => setOrdered(true)}>Ordered Proof</span> <span onClick={() => setOrdered(false)} className={classNames({selector:true, active: !this.state.ordered})}>List of Evidences</span></div>
-        <div>Argument name: <input type="text" value={this.state.title} onChange={this.updateTitle}/></div>
+        <div><button className={classNames({selector:true, active: this.state.ordered})} onClick={() => setOrdered(true)}>Ordered Proof</button> <button onClick={() => setOrdered(false)} className={classNames({selector:true, active: !this.state.ordered})}>List of Evidences</button></div>
+        <div className="argument-name"><input placeholder="Argument name" type="text" value={this.state.title} onChange={this.updateTitle}/></div>
         {theoremsList}
         <div>
           <button onClick={addTheorem}>Add Theorem</button>
@@ -92,7 +98,7 @@ var NewArgument = React.createClass({
         </div>
       </div>;
     } else {
-      return <button onClick={this.toggle} title="Add a new argument to support this theorem">New argument</button>;
+      return null;
     }
   },
 })

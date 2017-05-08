@@ -14,6 +14,11 @@ class Theorem < ActiveRecord::Base
     self.save
   end
 
+  def viewed!
+    self.views += 1
+    self.save
+  end
+
   def supported?
     return self.source || self.arguments.count > 0
   end
@@ -26,6 +31,7 @@ class Theorem < ActiveRecord::Base
       source: self.source,
       user_id: self.user_id,
       objections_count: self.objections.count,
+      views: self.views,
     }
   end
 
