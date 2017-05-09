@@ -15,7 +15,7 @@ class TheoremsController < ApplicationController
     else
       @theorems = @theorems.order('views desc')
     end
-    @theorems = @theorems.where('text ILIKE ?', "#{@query[:search]}%") if @query[:search] && @query[:search].length > 0
+    @theorems = @theorems.where('text ILIKE ?', "%#{@query[:search]}%") if @query[:search] && @query[:search].length > 0
     respond_to do |f|
       f.html { render 'index' }
       f.json { render json: @theorems }

@@ -30,7 +30,7 @@ input[type="text"] {
   }
 }
 
-button {
+button, input[type="submit"] {
   border: 1px solid #333;//#e23d3d;
   background-color: white;
   color: #333;
@@ -53,6 +53,12 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 24px;
   margin-bottom: 30px;
 }
+h2 {
+  font-size: 21px;
+}
+h3 {
+  font-size: 18px;
+}
 
 div, span, p {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
@@ -65,6 +71,13 @@ a {
   &:hover {
     color: red;
     text-decoration: underline;
+    span {
+      color: red;
+    }
+  }
+  span {
+    color: #e23d3d;
+    font-family: "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif;
   }
 }
 

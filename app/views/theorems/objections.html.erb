@@ -1,12 +1,15 @@
-<h1>Objections to <%=@theorem.text%></h1>
+<h1>Objections to <a href="<%=@theorem.supported? ? theorem_path(@theorem) : theorem_path(@theorem.parent) %>"><%=@theorem.text%></a></h1>
 
-<% @theorem.objections.each do |obj|
-   obj_theorem = obj.counter_theorem
-%>
-  <div class="objection">
-    <%=link_to_if(obj_theorem.arguments.count > 0, obj_theorem.text, theorem_path(obj_theorem))%>
-    <% if obj_theorem.source %>
-      <%= link_to "source", obj_theorem.source %>
-    <% end %>
-  </div>
-<% end %>
+<div class="page-container">
+  <% @theorem.objections.each do |obj|
+     obj_theorem = obj.counter_theorem
+  %>
+    <div class="objection">
+      <%=link_to_if(obj_theorem.arguments.count > 0, obj_theorem.text, theorem_path(obj_theorem))%>
+      <% if obj_theorem.source %>
+        <%= link_to "source", obj_theorem.source %>
+      <% end %>
+      by <%=obj_theorem.user.name%>
+    </div>
+  <% end %>
+</div>

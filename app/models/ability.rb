@@ -5,10 +5,12 @@ class Ability
     can :read, :all
     if user
       can :create, :all
+      can :update, Comment, user_id: user.id
       can :update, Theorem, user_id: user.id
       can :update, Argument, user_id: user.id
       can :destroy, Theorem, user_id: user.id
       can :destroy, Argument, user_id: user.id
+      can :destroy, Comment, user_id: user.id
     end
     # The first argument to `can` is the action you are giving the user 
     # permission to do.

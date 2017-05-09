@@ -3,6 +3,7 @@ class Theorem < ActiveRecord::Base
   validates :user_id, presence: true
   has_many :arguments
   has_many :objections
+  has_many :comments, as: :object
   belongs_to :user
 
   def countered_theorems
@@ -21,6 +22,13 @@ class Theorem < ActiveRecord::Base
 
   def supported?
     return self.source || self.arguments.count > 0
+  end
+
+  def parent
+    at = ArgumentsTheorem.where(theorem_id: self.id).first
+    return nil unless at
+    argument = Argument.find(at.argument_id)
+    return argument.theorem
   end
 
   def to_h

@@ -4,6 +4,8 @@
   <h3>Objection to: <%=link_to_if @objection.arguments.count > 0, @objection.text, theorem_path(@objection)%></h3>
 <% end %>
 
-<%= render 'form' %>
+<div class="page-container">
+  <%= render 'form' %>
+  <%= link_to 'Back', theorem_path(@objection.parent) %>
+</div>
 
-<%= link_to 'Back', theorems_path %>

@@ -146,11 +146,6 @@ var ShowArgument = React.createClass({
         destroy = <span>({255 - theorem.text.length} characters left) <a href="javascript:;" onClick={()=> deleteTheorem(theorem.id)}>X</a></span>;
       }
 
-      var objections = null;
-      if (theorem.objections_count > 0){
-        objections = <a className="objections-link" href={"/theorems/"+theorem.id+"/objections"}>[{theorem.objections_count} objections]</a>;
-      }
-
       var objection = <a className="object-link" href={props.signInPath}>Sign In to Object</a>;
       if (user) {
         if (user.id != theorem.user_id) {
@@ -158,6 +153,12 @@ var ShowArgument = React.createClass({
         } else {
           objection = null;
         }
+      }
+
+      var objections = null;
+      if (theorem.objections_count > 0){
+        objections = <a className="objections-link" href={"/theorems/"+theorem.id+"/objections"}>[{theorem.objections_count} objections]</a>;
+        objection = null; // they can click the objections link if they want to object
       }
 
       return <li key={index}><div className="argument-theorem">

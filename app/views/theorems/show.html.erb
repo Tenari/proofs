@@ -36,6 +36,15 @@
       newObjectionPath: new_theorem_path,
     ) %>
   <% end %>
+
+  <hr>
+
+  <div class="comments">
+    <% @theorem.comments.each do |comment| %>
+      <p><%=comment.text%> <span>by <%=comment.user.name%></span></p>
+    <% end %>
+    <%= link_to "New comment", new_comment_path + "?" + {object_id: @theorem.id, object_type: @theorem.class.to_s }.to_query %>
+  </div>
 </div>
 
 <script>
