@@ -6,6 +6,8 @@
 
 <div class="page-container">
   <%= render 'form' %>
-  <%= link_to 'Back', theorem_path(@objection.parent) %>
+  <% if @objection  && @objection.parent%>
+    <%= link_to 'Back', theorem_path(@objection.parent) %>
+  <% end %>
 </div>
 
