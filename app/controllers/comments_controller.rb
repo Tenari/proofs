@@ -30,7 +30,8 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        path = @comment.object.is_a?(Theorem) ? theorem_path(@comment.object_id) : argument_path(@comment.object_id)
+        format.html { redirect_to path, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { render :new }

@@ -16,8 +16,7 @@ class Theorem < ActiveRecord::Base
   end
 
   def viewed!
-    self.views += 1
-    self.save
+    self.update_column(:views, self.views + 1)
   end
 
   def supported?
