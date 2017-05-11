@@ -1,9 +1,22 @@
-<div class="page-container">
+<div class="page-container less-top">
   <div>
-    <% params[:tids].split(",").each_with_index do |tid, index| %>
-      <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
-      <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
-    <% end if params[:tids]%>
+    <% if params[:tids] && !params[:tids].blank? %>
+      <% params[:tids].split(",").each_with_index do |tid, index| %>
+        <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
+        <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
+      <% end %>
+    <% elsif @theorem.is_an_objection? %>
+      <% objected = @theorem.first_objected_theorem %>
+      This is an objection to <a href="<%=theorem_path(objected)%>"><%=objected.text%></a>
+      <% if objected.parent %>
+        which supports <a href="<%=theorem_path(objected.parent)%>"><%=objected.parent.text%></a>
+      <% end %>
+    <% elsif parent = @theorem.parent %>
+      <% if grandparent = parent.parent %>
+        <a href="<%=theorem_path(grandparent)%>"><%=grandparent.text%></a> > 
+      <% end %>
+      <a href="<%=theorem_path(parent)%>"><%=parent.text%></a> > 
+    <% end %>
   </div>
 
   <div class="theorem-control-buttons">
@@ -13,6 +26,7 @@
         <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
       <% end %>
     <% end %>
+    <a href="<%=new_theorem_path()+"?objection_id=#{@theorem.id}"%>">I object!</a>
   </div>
 
   <h1><%=@theorem.text%></h1>

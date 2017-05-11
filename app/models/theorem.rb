@@ -11,6 +11,14 @@ class Theorem < ActiveRecord::Base
     Objection.where(counter_theorem_id: self.id)
   end
 
+  def is_an_objection?
+    self.countered_theorems.count > 0
+  end
+
+  def first_objected_theorem
+    self.countered_theorems.first.try(&:theorem)
+  end
+
   def updated!
     self.updated_at = Time.now
     self.save
