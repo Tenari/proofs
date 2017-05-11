@@ -5,11 +5,17 @@
      obj_theorem = obj.counter_theorem
   %>
     <div class="objection">
-      <%=link_to_if(obj_theorem.arguments.count > 0, obj_theorem.text, theorem_path(obj_theorem))%>
+      <%= link_to obj_theorem.text, theorem_path(obj_theorem) %>
       <% if obj_theorem.source %>
         <%= link_to "source", obj_theorem.source %>
       <% end %>
-      by <%=obj_theorem.user.name%>
+      <div class="author">by <%=obj_theorem.user.name%></div>
+      <% unless obj_theorem.supported? %>
+        <div class="unsupported-notice">This objection is unsupported.</div>
+      <% end %>
     </div>
   <% end %>
+  <div>
+    <a href="<%=new_theorem_path()+"?objection_id=#{@theorem.id}"%>">New objection</a>
+  </div>
 </div>

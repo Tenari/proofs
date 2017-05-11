@@ -18,7 +18,7 @@
   <h1><%=@theorem.text%></h1>
 
   <% if can? :update, @theorem %>
-    <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user) %>
+    <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user, max: Theorem::MAX_LENGTH) %>
   <% end %>
 
   <% if @theorem.arguments.count == 0 && @theorem.source.nil?%>
@@ -32,8 +32,9 @@
       argument: argument,
       tids: params[:tids],
       user: current_user,
-      signInPath: user_omniauth_authorize_path(:facebook),
+      signInPath: user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query,
       newObjectionPath: new_theorem_path,
+      max: Theorem::MAX_LENGTH,
     ) %>
   <% end %>
 
@@ -49,7 +50,7 @@
   <% if current_user %>
     <%= react_component('NewComment', object: {id: @theorem.id, type: @theorem.class.to_s}, user: current_user) %>
   <% else %>
-    <%= link_to "Sign in to make a new comment", user_omniauth_authorize_path(:facebook) %>
+    <%= link_to "Sign in to make a new comment", (user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query) %>
   <% end %>
 </div>
 

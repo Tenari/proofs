@@ -12,15 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :text %><br>
+    <%= f.label :text %> (<%=Theorem::MAX_LENGTH%> character maximum)<br>
     <%= f.text_field :text %>
   </div>
 
-  <div class="field">
-    <%= f.label :root %><br>
-    <%= f.radio_button :root, true %> Yes
-    <%= f.radio_button :root, false %> No
-  </div>
+  <% unless params[:objection_id] %>
+    <div class="field">
+      <%= f.label :root %><br>
+      <p>Select yes if this is a new, standalone theorem you are setting out to prove.</p>
+      <%= f.radio_button :root, true %> Yes
+      <%= f.radio_button :root, false %> No
+    </div>
+  <% end %>
 
   <% if params[:objection_id] %>
     <%= hidden_field_tag :objection_id, params[:objection_id] %>

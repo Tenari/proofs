@@ -1,5 +1,6 @@
 class Theorem < ActiveRecord::Base
-  validates :text, length: {maximum: 255}
+  MAX_LENGTH = 200
+  validates :text, length: {maximum: MAX_LENGTH}
   validates :user_id, presence: true
   has_many :arguments
   has_many :objections

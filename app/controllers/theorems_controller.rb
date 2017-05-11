@@ -20,11 +20,6 @@ class TheoremsController < ApplicationController
       f.html { render 'index' }
       f.json { render json: @theorems }
     end
-#    if params[:scope]
-#      if params[:scope] == 'user' && current_user
-#        @theorems = Theorem.where(user: current_user).order('updated_at desc')
-#      end
-#    end
   end
 
   # GET /theorems/1
@@ -63,7 +58,14 @@ class TheoremsController < ApplicationController
         if params[:argument_id]
           ArgumentsTheorem.create(argument_id: params[:argument_id], theorem_id: @theorem.id)
         end
-        format.html { redirect_to @theorem, notice: 'Theorem was successfully created.' }
+        format.html do
+          if params[:objection_id]
+            objected_theorem = @theorem.countered_theorems.first.theorem
+            return redirect_to objected_theorem unless objected_theorem.parent
+            return redirect_to objected_theorem.parent
+          end
+          redirect_to @theorem, notice: 'Theorem was successfully created.'
+        end
         format.json { render json: @theorem.to_h }
       else
         format.html { render :new }

@@ -24,7 +24,7 @@ var NewArgument = React.createClass({
     this.setState({title: e.target.value});
   },
   updateTheorem: function(index, str){
-    if (str.length > 255) return;
+    if (str.length > this.props.max) return;
     var list = this.state.theorems;
     list[index] = str;
     this.setState({theorems: list});
@@ -66,6 +66,7 @@ var NewArgument = React.createClass({
       var updateTheorem = this.updateTheorem;
       var addTheorem = this.addTheorem;
       var removeTheorem = this.removeTheorem;
+      var props = this.props;
       var error = null;
       if (this.state.error) {
         error = <p>{this.state.error}</p>;
@@ -74,7 +75,7 @@ var NewArgument = React.createClass({
       var theorems = _.map(this.state.theorems, function(theorem, index){
         return <li key={index} className="new-theorem">
           <input key={index} type="text" value={theorem} onChange={(e)=> updateTheorem(index, e.target.value)}/>
-          <span>({255 - theorem.length} characters left)</span>
+          <span>({props.max - theorem.length} characters left)</span>
           <a href="javascript:;" onClick={()=> removeTheorem(index)}>X</a>
         </li>;
       });

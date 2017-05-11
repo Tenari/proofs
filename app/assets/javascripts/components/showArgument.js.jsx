@@ -17,7 +17,7 @@ var ShowArgument = React.createClass({
   },
   changeTheorem: function(index, str){
     var argument = this.state.argument;
-    argument.theorems[index].text = str.substr(0,255);
+    argument.theorems[index].text = str.substr(0,this.props.max);
     this.setState({argument: argument});
   },
   changeTitle: function(e){
@@ -123,7 +123,6 @@ var ShowArgument = React.createClass({
     if (state.editMode) {
       addTheoremButton = <button onClick={addTheorem}>Add Theorem</button>;
     }
-
     var theorems = _.map(argument.theorems, function(theorem, index){
       var linkUrl = "/theorems/"+theorem.id + "?tids="+tids+argument.theorem_id;
 
@@ -143,7 +142,7 @@ var ShowArgument = React.createClass({
       var destroy = null;
       if (state.editMode) {
         element = <input type="text" value={theorem.text} onChange={(e) => changeTheorem(index, e.target.value)}/>;
-        destroy = <span>({255 - theorem.text.length} characters left) <a href="javascript:;" onClick={()=> deleteTheorem(theorem.id)}>X</a></span>;
+        destroy = <span>({props.max - theorem.text.length} characters left) <a href="javascript:;" onClick={()=> deleteTheorem(theorem.id)}>X</a></span>;
       }
 
       var objection = <a className="object-link" href={props.signInPath}>Sign In to Object</a>;

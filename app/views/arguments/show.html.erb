@@ -4,6 +4,7 @@
   argument: @argument,
   tids: params[:tids],
   user: current_user,
-  signInPath: user_omniauth_authorize_path(:facebook),
+  signInPath: user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query,
   newObjectionPath: new_theorem_path,
+  max: Theorem::MAX_LENGTH,
 ) %>
