@@ -47,7 +47,7 @@
     <% end %>
   </div>
   <% if current_user %>
-    <%= link_to "New comment", new_comment_path + "?" + {object_id: @theorem.id, object_type: @theorem.class.to_s }.to_query %>
+    <%= react_component('NewComment', object: {id: @theorem.id, type: @theorem.class.to_s}, user: current_user) %>
   <% else %>
     <%= link_to "Sign in to make a new comment", user_omniauth_authorize_path(:facebook) %>
   <% end %>
