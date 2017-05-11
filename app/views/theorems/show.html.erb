@@ -16,6 +16,9 @@
   </div>
 
   <h1><%=@theorem.text%></h1>
+  <% if @theorem.objections.count > 0 %>
+    <p>There are <a href="<%=theorem_objections_path(@theorem)%>"><%=@theorem.objections.count%> objections</a> to this theorem.</p>
+  <% end %>
 
   <% if can? :update, @theorem %>
     <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user, max: Theorem::MAX_LENGTH) %>
