@@ -48,10 +48,11 @@ class Theorem < ActiveRecord::Base
       user_id: self.user_id,
       objections_count: self.objections.count,
       views: self.views,
+      user: self.user,
     }
   end
 
-  def as_json(options)
+  def as_json(options={})
     super.merge(self.to_h.merge({
       arguments: self.arguments.limit(5).map {|a| {id: a.id, title: a.title}}
     }))

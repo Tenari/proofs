@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
 
     user
   end
+
+  def as_json(options={})
+    super(only: [:id, :name])
+  end
 end

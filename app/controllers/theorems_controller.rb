@@ -29,6 +29,10 @@ class TheoremsController < ApplicationController
   end
 
   def objections
+    respond_to do |f|
+      f.html { render 'objections' }
+      f.json { render json: @theorem.objections.map(&:counter_theorem) }
+    end
   end
 
   # GET /theorems/new

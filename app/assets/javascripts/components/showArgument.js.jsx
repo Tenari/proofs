@@ -124,50 +124,14 @@ var ShowArgument = React.createClass({
       addTheoremButton = <button onClick={addTheorem}>Add Theorem</button>;
     }
     var theorems = _.map(argument.theorems, function(theorem, index){
-      var linkUrl = "/theorems/"+theorem.id + "?tids="+tids+argument.theorem_id;
-
-      var link = null;
-      if (user && user.id == theorem.user_id) {
-        link = <a href={linkUrl}>add support</a>;
-      }
-      if (theorem.source) {
-        link = <a href={theorem.source} target="_blank">source</a>;
-      }
-
-      var element = <span>{theorem.text} {link}</span>;
-      if (theorem.arguments_count > 0) {
-        element = <a href={linkUrl}>{theorem.text}</a>;
-      }
-
-      var destroy = null;
-      if (state.editMode) {
-        element = <input type="text" value={theorem.text} onChange={(e) => changeTheorem(index, e.target.value)}/>;
-        destroy = <span>({props.max - theorem.text.length} characters left) <a href="javascript:;" onClick={()=> deleteTheorem(theorem.id)}>X</a></span>;
-      }
-
-      var objection = <a className="object-link" href={props.signInPath}>Sign In to Object</a>;
-      if (user) {
-        if (user.id != theorem.user_id) {
-          objection = <a className="object-link" href={props.newObjectionPath + "?objection_id=" + theorem.id}>I object!</a>;
-        } else {
-          objection = null;
-        }
-      }
-
-      var objections = null;
-      if (theorem.objections_count > 0){
-        objections = <a className="objections-link" href={"/theorems/"+theorem.id+"/objections"}>[{theorem.objections_count} objections]</a>;
-        objection = null; // they can click the objections link if they want to object
-      }
-
-      return <li key={index}><div className="argument-theorem">
-        {element}
-        <span>
-          {destroy}
-          {objections}
-          {objection}
-        </span>
-      </div></li>;
+      return <ArgumentTheorem key={index} theorem={theorem}
+                              argument={argument} tids={tids}
+                              user={user} changeTheorem={changeTheorem}
+                              editMode={state.editMode} index={index}
+                              deleteTheorem={deleteTheorem} addTheorem={addTheorem}
+                              max={props.max} signInPath={props.signInPath}
+                              newObjectionPath={props.newObjectionPath}
+                              />;
     });
 
     var theoremsList = <ul>{theorems}</ul>;
