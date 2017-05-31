@@ -3,7 +3,7 @@ var Objections = React.createClass({
     var user = this.props.user;
     var max = this.props.max;
     var newObjectionLink = <a href={"/theorems/new?objection_id="+this.props.theorem.id}>Add objection</a>;
-    if (user.id == this.props.theorem.user_id) {
+    if (!user || user.id == this.props.theorem.user_id) {
       newObjectionLink = null;
     }
     return <div className="objections-list">
