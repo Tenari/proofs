@@ -1,6 +1,5 @@
-// Place all the styles related to the Home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'prefixer.css.less';
+
 .site-header {
   font-size: 13px;
   padding: 15px;
@@ -30,5 +29,14 @@
   line-height: 24px;
   p {
     margin-bottom: 12px;
+  }
+}
+.home-page-theorems .theorem-list .results {
+  .flex-block();
+  .flex-wrap(wrap);
+  .justify-content(space-between);
+  width: 980px;
+  .root-theorem-preview {
+    width: 457px;
   }
 }

@@ -34,24 +34,32 @@ var TheoremList = React.createClass({
   },
   render: function(){
     var state = this.state;
-    return <div className="theorem-list">
-      <div className="search-section">
+    var filters = null;
+    if (this.props.user) {
+      filters = <div className="filters">
+        <div className={classNames({left: true, selected: state.query.filters.mine})}>Mine</div>
+        <div className={classNames({right: true, selected: !state.query.filters.mine})}>All</div>
+      </div>;
+    }
+    var searchSection = null;
+    if (!this.props.noSearch) {
+      searchSection = <div className="search-section">
         <div className="search-bar">
           <input type="text" value={this.state.query.search} onChange={this.changeSearch} onKeyUp={this.handleKey}/>
           <button onClick={this.search}>Search</button>
         </div>
-        <div className="filters">
-          <div className={classNames({left: true, selected: state.query.filters.mine})}>Mine</div>
-          <div className={classNames({right: true, selected: !state.query.filters.mine})}>All</div>
-        </div>
-      </div>
+        {filters}
+      </div>;
+    }
+    return <div className="theorem-list">
+      {searchSection}
       <div className="results">
         {
           _.map(this.state.theorems, function(theorem){
             return <div className="root-theorem-preview">
               <div className="header">
                 <div className="title"><a href={"/theorems/"+theorem.id}>{theorem.text}</a></div>
-                <div className="views"><HumanizedNumber number={theorem.views} titlePrefix="Views: "/></div>
+                <div className="views"><HumanizedNumber number={theorem.views} titlePrefix="Views: "/> views</div>
               </div>
               <div className="body">
                 <div className="theorem-arguments">
