@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  resources :comments
   root 'home#index'
   resources :arguments
-  resources :theorems
+  resources :theorems do
+    resources :comments
+  end
+  resources :comments
   get '/theorems/:id/objections' => 'theorems#objections', as: :theorem_objections
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.

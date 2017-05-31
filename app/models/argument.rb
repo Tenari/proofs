@@ -4,7 +4,7 @@ class Argument < ActiveRecord::Base
   belongs_to :theorem
   belongs_to :user
 
-  def as_json(options)
+  def as_json(options=nil)
     theorems = self.theorems.order('arguments_theorems.order asc').map(&:to_h)
     theorems.each_with_index do |t, i|
       t[:order] = i+1

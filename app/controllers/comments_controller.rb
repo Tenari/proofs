@@ -1,10 +1,10 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
 
-  # GET /comments
-  # GET /comments.json
+  # GET /theorems/:theorem_id/comments
+  # GET /theorems/:theorem_id/comments.json
   def index
-    @comments = Comment.all
+    @comments = Theorem.find(params[:theorem_id]).comments
   end
 
   # GET /comments/1

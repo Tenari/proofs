@@ -25,7 +25,13 @@ class TheoremsController < ApplicationController
   # GET /theorems/1
   # GET /theorems/1.json
   def show
-    @theorem.viewed!
+    respond_to do |f|
+      f.html do
+        @theorem.viewed!
+        render
+      end
+      f.json {render json: @theorem }
+    end
   end
 
   def objections
@@ -37,6 +43,7 @@ class TheoremsController < ApplicationController
 
   # GET /theorems/new
   def new
+    redirect_to(user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query) unless current_user
     @theorem = Theorem.new
     authorize! :create, @theorem
     @objection = Theorem.find(params[:objection_id]) if params[:objection_id]

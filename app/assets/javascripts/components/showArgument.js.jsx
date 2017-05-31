@@ -101,8 +101,6 @@ var ShowArgument = React.createClass({
     })
   },
   render: function(){
-    var tids = this.props.tids || "";
-    if (tids.length > 0) tids += ",";
     var state = this.state;
     var props = this.props;
     var user = this.props.user;
@@ -125,7 +123,7 @@ var ShowArgument = React.createClass({
     }
     var theorems = _.map(argument.theorems, function(theorem, index){
       return <ArgumentTheorem key={index} theorem={theorem}
-                              argument={argument} tids={tids}
+                              argument={argument}
                               user={user} changeTheorem={changeTheorem}
                               editMode={state.editMode} index={index}
                               deleteTheorem={deleteTheorem} addTheorem={addTheorem}
