@@ -15,5 +15,5 @@
   <hr/>
 </div>
 <div class="home-page-theorems">
-  <%= react_component('TheoremList', theorems: Theorem.where(root: true).order('views desc').limit(9), noSearch: true) %>
+  <%= react_component('TheoremList', theorems: Theorem.where(root: true).order('views desc').limit(6), noSearch: true) %>
 </div>
