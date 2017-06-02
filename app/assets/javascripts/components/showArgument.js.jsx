@@ -147,10 +147,14 @@ var ShowArgument = React.createClass({
     }
 
     return <div className="argument">
-      {argumentTitle}
-      {controlButtons}
-      {theoremsList}
-      {addTheoremButton}
+      <div className="argument-header">
+        {argumentTitle}
+        {controlButtons}
+      </div>
+      <div className="argument-body">
+        {theoremsList}
+        {addTheoremButton}
+      </div>
     </div>;
   },
 })

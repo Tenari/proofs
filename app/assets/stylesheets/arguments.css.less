@@ -3,20 +3,43 @@
 .argument {
   border: 2px solid #d3d3d3;
   border-radius: 2px;
-  padding: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
-  .argument-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
-  }
-  .argument-control-buttons {
-    margin-bottom: 10px;
-    button {
-      margin-right: 10px;
+  .argument-header {
+    .flex-block();
+    .justify-content(space-between);
+    background-color: #f6f8fa;
+    padding: 10px;
+    border-bottom: 2px solid #d3d3d3;
+
+    .argument-title {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: bold;
+      display: block;
     }
+    .argument-control-buttons {
+      button {
+        border-radius: 0px;
+        padding: 5px;
+        padding-top: 2px;
+        height: 20px;
+        border-right: none;
+        outline: 0;
+      }
+      button:first-of-type {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+      button:last-of-type {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-right: 1px solid black;
+      }
+    }
+  }
+  .argument-body {
+    padding: 20px;
   }
   .argument-theorem {
     padding-top: 3px;
@@ -61,8 +84,8 @@
     border: 2px solid #707070;
     border-radius: 2px;
     padding-top: 0px;
-    margin-left: -22px;
-    margin-right: -22px;
+    margin-left: -18px;
+    margin-right: -18px;
     margin-top: 15px;
     margin-bottom: 15px;
     .hide-link {
@@ -87,6 +110,8 @@
     }
     .argument {
       margin-top: 0px;
+      margin-left: 2px;
+      margin-right: 2px;
     }
     p {
       margin-top: 15px;
@@ -127,8 +152,8 @@
         margin-left: 20px;
       }
       .full-theorem {
-        margin-left: -30px;
-        margin-right: -30px;
+        margin-left: -28px;
+        margin-right: -28px;
       }
     }
   }
