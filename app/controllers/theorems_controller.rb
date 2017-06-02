@@ -37,7 +37,7 @@ class TheoremsController < ApplicationController
 
     respond_to do |f|
       f.html do
-        @theorem.viewed!
+        @theorem.viewed! unless (current_user && @theorem.user_id == current_user.id) || @path.count > 0
         render
       end
       f.json {render json: @theorem }

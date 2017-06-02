@@ -15,4 +15,3 @@
     - quality is based on how 'intelligent' the voters are. so it's just a weighted voting system
 - need way to submit arguments to another user's theorem. An argument pull-request.
 - need user profile to show all a user's root theorems + activity stream.
-- https://github.com/vmg/redcarpet

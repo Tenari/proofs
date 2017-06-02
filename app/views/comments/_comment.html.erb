@@ -1,9 +1,7 @@
 <div class="comment">
   <div class="author"><%=comment.user.name%> writes:</div>
   <div class="text">
-    <% comment.text_array.each do |text| %>
-      <p><%=text%></p>
-    <% end %>
+    <%== comment.text_html %>
   </div>
   <div class="timestamp">on <%=comment.updated_at.to_formatted_s(:long_ordinal)%></div>
 </div>
