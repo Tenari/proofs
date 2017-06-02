@@ -1,0 +1,38 @@
+<% if theorem.arguments.count > 0 %>
+<%=react_component('Arguments',
+  theorem: theorem,
+  max: Theorem::MAX_LENGTH,
+  path: "#{theorem_path}?#{ {path:@path.join("/")}.to_query}#{@path.count == 0 ? '' : '/'}" ,
+  user: current_user,
+) %>
+<% end %>
+
+<div class="objections-header">
+  Objections
+  <% if theorem.user != current_user #dont object to your own shit %>
+  <a href="<%=new_theorem_path()+"?objection_id=#{@display_object.id}"%>">I object!</a>
+  <% end %>
+</div>
+<table class="objections">
+  <tbody>
+    <% theorem.objections.each do |obj| %>
+      <% objection = obj.counter_theorem %>
+      <tr>
+        <td><a href="<%=build_path(objection)%>"><%= objection.text %></a></td>
+        <td><%= objection.user.name %></td>
+      </tr>
+    <% end %>
+    <% if theorem.objections.count == 0 %>
+      <tr><td>There are no objections to this theorem yet.</td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if theorem.arguments.count == 0 %>
+<%=react_component('Arguments',
+  theorem: theorem,
+  max: Theorem::MAX_LENGTH,
+  path: "#{theorem_path}?#{ {path:@path.join("/")}.to_query}#{@path.count == 0 ? '' : '/'}" ,
+  user: current_user,
+) %>
+<% end %>

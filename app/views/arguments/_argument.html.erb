@@ -1,0 +1,25 @@
+<div class="argument">
+  <div class="argument-header">
+    <div class="argument-title"><%=argument.title%></div>
+  </div>
+  <div class="argument-body">
+    <% list_items = capture do %>
+      <% argument.theorems.order('arguments_theorems.order asc').each_with_index do |theorem, index| %>
+        <li class="argument-theorem">
+          <span class="number"><%=argument.ordered ? "#{index+1}." : '-'%></span>
+          <span class="text"><%=theorem.text%></span>
+          <span class="actions">
+            <% if theorem.expandable? %>
+              <a href="<%=build_path(theorem)%>">expand</a>
+            <% end %>
+          </span>
+        </li>
+      <% end %>
+    <% end %>
+    <% if argument.ordered %>
+      <ol><%=list_items%></ol>
+    <% else %>
+      <ul><%=list_items%></ul>
+    <% end %>
+  </div>
+</div>

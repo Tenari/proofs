@@ -7,6 +7,14 @@ class Theorem < ActiveRecord::Base
   has_many :comments, as: :object
   belongs_to :user
 
+  def tree_symbol
+    self.is_an_objection? ? "!" : "-"
+  end
+
+  def tree_name
+    self.text
+  end
+
   def countered_theorems
     Objection.where(counter_theorem_id: self.id)
   end
@@ -30,6 +38,10 @@ class Theorem < ActiveRecord::Base
 
   def supported?
     return self.source || self.arguments.count > 0
+  end
+
+  def expandable?
+    return self.objections.count > 0 || self.arguments.count > 0
   end
 
   def parent

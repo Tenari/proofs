@@ -25,6 +25,16 @@ class TheoremsController < ApplicationController
   # GET /theorems/1
   # GET /theorems/1.json
   def show
+    @path = params[:path] ? params[:path].split("/") : []
+    puts @theorem.id
+    @display_object = @theorem
+    if @path.last
+      type = @path.last.split(":").first
+      id = @path.last.split(":").last
+      @display_object = type.constantize.find(id)
+    end
+    puts @theorem.id
+
     respond_to do |f|
       f.html do
         @theorem.viewed!
@@ -43,7 +53,7 @@ class TheoremsController < ApplicationController
 
   # GET /theorems/new
   def new
-    redirect_to(user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query) unless current_user
+    return redirect_to(user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query) if current_user.nil?
     @theorem = Theorem.new
     authorize! :create, @theorem
     @objection = Theorem.find(params[:objection_id]) if params[:objection_id]

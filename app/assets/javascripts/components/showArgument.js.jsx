@@ -123,7 +123,7 @@ var ShowArgument = React.createClass({
     }
     var theorems = _.map(argument.theorems, function(theorem, index){
       return <ArgumentTheorem key={index} theorem={theorem}
-                              argument={argument}
+                              argument={argument} path={props.path}
                               user={user} changeTheorem={changeTheorem}
                               editMode={state.editMode} index={index}
                               deleteTheorem={deleteTheorem} addTheorem={addTheorem}
@@ -137,8 +137,12 @@ var ShowArgument = React.createClass({
       theoremsList = <ol>{theorems}</ol>;
     }
 
+    var back = null;
+    if (props.goBack) {
+      back = <span><a href="javascript:;" onClick={props.goBack}>Arguments</a> > </span>;
+    }
     var argumentTitle = <div className="argument-title">
-      <a href={"/arguments/"+argument.id}>{argument.title}</a>
+      {back} {argument.title}
     </div>;
     if (state.editMode) {
       argumentTitle = <div className="argument-title">

@@ -1,56 +1,43 @@
-<div class="page-container less-top">
-  <div>
-    <% if params[:tids] && !params[:tids].blank? %>
-      <% params[:tids].split(",").each_with_index do |tid, index| %>
-        <% previous = index == 0 ? "" : params[:tids].split(",")[0..(index-1)].join(",") %>
-        <a href="<%=theorem_path(tid)%>?tids=<%=previous%>"><%=Theorem.find(tid).text%></a> > 
-      <% end %>
-    <% elsif @theorem.is_an_objection? %>
-      <% objected = @theorem.first_objected_theorem %>
-      This is an objection to <a href="<%=theorem_path(objected)%>"><%=objected.text%></a>
-      <% if objected.parent %>
-        which supports <a href="<%=theorem_path(objected.parent)%>"><%=objected.parent.text%></a>
-      <% end %>
-    <% elsif parent = @theorem.parent %>
-      <% if grandparent = parent.parent %>
-        <a href="<%=theorem_path(grandparent)%>"><%=grandparent.text%></a> > 
-      <% end %>
-      <a href="<%=theorem_path(parent)%>"><%=parent.text%></a> > 
-    <% end %>
-  </div>
-
+<div class="page-container root-theorem">
   <div class="theorem-control-buttons">
-    <% if can? :update, @theorem %>
+    <% if can? :update, @display_object %>
       <button title="Add a new argument to support this theorem" id="new-argument">New Argument</button>
-      <% unless @theorem.source %>
-        <%= react_component('NewSource', updateTheoremPath: theorem_path(@theorem), theorem_id: @theorem.id) %>
+      <% unless @display_object.source %>
+        <%= react_component('NewSource', updateTheoremPath: theorem_path(@display_object), theorem_id: @display_object.id) %>
       <% end %>
     <% end %>
-    <a href="<%=new_theorem_path()+"?objection_id=#{@theorem.id}"%>">I object!</a>
   </div>
 
-  <h1><%=@theorem.text%></h1>
-  <% if @theorem.objections.count > 0 %>
-    <p>There are <a href="<%=theorem_objections_path(@theorem)%>"><%=@theorem.objections.count%> objections</a> to this theorem.</p>
+  <div class="page-titles">
+    <% if @path.count == 0 %>
+      <p class="heading"><%=@theorem.text%></p>
+    <% else %>
+      <p><a href="<%=theorem_path%>"><%=@theorem.text%></a></p>
+    <% end %>
+    <% @path.each_with_index do |string, index| %>
+      <% object = string.split(":").first.constantize.find(string.split(":").last) %>
+      <% if index == @path.count - 1 %>
+        <p class="heading"><%=object.tree_name%></p>
+      <% else %>
+        <p><%=object.tree_symbol%> <a href="<%=theorem_path + "?" + {path: @path.take(index+1).join("/")}.to_query%>"><%=object.tree_name%></a></p>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if can? :update, @display_object %>
+    <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @display_object.id, user: current_user, max: Theorem::MAX_LENGTH) %>
   <% end %>
 
-  <% if can? :update, @theorem %>
-    <%= react_component('NewArgument', createArgumentPath: arguments_path, theorem_id: @theorem.id, user: current_user, max: Theorem::MAX_LENGTH) %>
+  <% if @display_object.source %>
+    <p>Source supporting the claim: <%= link_to @display_object.source, @display_object.source %></p>
   <% end %>
 
-  <% if @theorem.arguments.count == 0 && @theorem.source.nil?%>
-    <p>This is currently an unsupported claim.</p>
-  <% elsif @theorem.source %>
-    <p>Source supporting the claim: <%= link_to @theorem.source, @theorem.source %></p>
-  <% end %>
-
-  <% @theorem.arguments.each do |argument| %>
-    <%= react_component('ShowArgument',
-      argument: argument,
-      user: current_user,
-      newObjectionPath: new_theorem_path,
-      max: Theorem::MAX_LENGTH,
-    ) %>
+  <% if @display_object %>
+    <% if @display_object.is_a?(Argument) %>
+      <%= render partial: 'arguments/argument', locals: {argument: @display_object} %>
+    <% elsif @display_object.is_a?(Theorem) %>
+      <%= render partial: 'theorems/theorem', locals: {theorem: @display_object} %>
+    <% end %>
   <% end %>
 
   <hr>
@@ -58,12 +45,12 @@
 
   <div class="comments">
     <h3>Comments</h3>
-    <% @theorem.comments.each do |comment| %>
+    <% @display_object.comments.each do |comment| %>
       <%= render partial: 'comments/comment', locals: {comment: comment} %>
     <% end %>
   </div>
   <% if current_user %>
-    <%= react_component('NewComment', object: {id: @theorem.id, type: @theorem.class.to_s}, user: current_user) %>
+    <%= react_component('NewComment', object: {id: @display_object.id, type: @display_object.class.to_s}, user: current_user) %>
   <% else %>
     <%= link_to "Sign in to make a new comment", (user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query) %>
   <% end %>

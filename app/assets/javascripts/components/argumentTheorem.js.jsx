@@ -19,6 +19,7 @@ var ArgumentTheorem = React.createClass({
     }
   },
   render: function(){
+    var props = this.props;
     var theorem = this.props.theorem;
     var argument = this.props.argument;
     var user = this.props.user;
@@ -47,12 +48,12 @@ var ArgumentTheorem = React.createClass({
       link = null;
     }
 
-    var linkUrl = "/theorems/"+theorem.id;
+    var linkUrl = props.path+"Theorem:"+theorem.id;
 
     var link = null;
     
     if (theorem.arguments_count > 0 || theorem.objections_count > 0) {
-      link = <a href="javascript:;" onClick={showTheorem}>expand</a>;
+      link = <a href={linkUrl}>details</a>;
     } else if (user && user.id == theorem.user_id) {
       link = <a href={linkUrl}>add support</a>;
     } else {
