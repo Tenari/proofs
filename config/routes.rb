@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
+  get '/login_choices' => 'home#login_choices', as: :login_choices
   resources :arguments
   resources :theorems do
     resources :comments

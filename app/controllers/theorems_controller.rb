@@ -53,7 +53,7 @@ class TheoremsController < ApplicationController
 
   # GET /theorems/new
   def new
-    return redirect_to(user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query) if current_user.nil?
+    return redirect_to(login_choices_path + '?' + {origin: request.path}.to_query) if current_user.nil?
     @theorem = Theorem.new
     authorize! :create, @theorem
     @objection = Theorem.find(params[:objection_id]) if params[:objection_id]

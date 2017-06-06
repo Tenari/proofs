@@ -1,0 +1,5 @@
+<div class="login-pages">
+  <p class="big">login with <%= link_to "Facebook", (user_omniauth_authorize_path(:facebook) + '?' + {origin: params[:origin]}.to_query) %></p>
+  <p>OR</p>
+  <p class="big">login with <%= link_to "Google", (user_omniauth_authorize_path(:google_oauth2) + '?' + {origin: params[:origin]}.to_query) %></p>
+</div>
