@@ -45,6 +45,7 @@ end
 
 gem 'devise'
 gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'cancan'
 
