@@ -74,7 +74,7 @@ var NewArgument = React.createClass({
 
       var theorems = _.map(this.state.theorems, function(theorem, index){
         return <li key={index} className="new-theorem">
-          <input key={index} type="text" value={theorem} onChange={(e)=> updateTheorem(index, e.target.value)}/>
+          <textarea key={index} value={theorem} onChange={(e)=> updateTheorem(index, e.target.value)}></textarea>
           <span>({props.max - theorem.length} characters left)</span>
           <a href="javascript:;" onClick={()=> removeTheorem(index)}>X</a>
         </li>;

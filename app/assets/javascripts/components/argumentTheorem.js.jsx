@@ -41,7 +41,7 @@ var ArgumentTheorem = React.createClass({
 
     var destroy = null;
     if (editMode) {
-      text = <input type="text" value={theorem.text} onChange={(e) => changeTheorem(index, e.target.value)}/>;
+      text = <textarea value={theorem.text} onChange={(e) => changeTheorem(index, e.target.value)}></textarea>;
       destroy = <span>({max - theorem.text.length} characters left) <a href="javascript:;" onClick={()=> deleteTheorem(theorem.id)}>X</a></span>;
       objections = null;
       objection = null;
