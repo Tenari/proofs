@@ -6,15 +6,9 @@ class TheoremsController < ApplicationController
   def index
     @query = params[:query] || {
       search: '',
-      filters: {mine: true},
     }
     @theorems = Theorem.all.where(root: true).limit(50)
-    if current_user
-      @theorems = @theorems.where(user_id: current_user.id) if @query[:filters][:mine]
-      @theorems = @theorems.order('updated_at desc')
-    else
-      @theorems = @theorems.order('views desc')
-    end
+    @theorems = @theorems.order('views desc')
     @theorems = @theorems.where('text ILIKE ?', "%#{@query[:search]}%") if @query[:search] && @query[:search].length > 0
     respond_to do |f|
       f.html { render 'index' }

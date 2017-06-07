@@ -35,7 +35,7 @@ var TheoremList = React.createClass({
   render: function(){
     var state = this.state;
     var filters = null;
-    if (this.props.user) {
+    if (false){//this.props.user) {
       filters = <div className="filters">
         <div className={classNames({left: true, selected: state.query.filters.mine})}>Mine</div>
         <div className={classNames({right: true, selected: !state.query.filters.mine})}>All</div>

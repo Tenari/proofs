@@ -1,10 +1,10 @@
 <p id="notice"><%= notice %></p>
-<div>
+<div class="user-sign-in">
   <% if current_user %>
-    <%= link_to 'New Theorem', new_theorem_path %> |
+   <%= link_to 'New Theorem', new_theorem_path %>
   <% end %>
-  <%= link_to "Arguments", arguments_path %>
 </div>
 
+<h2>Theorems</h2>
 <%= react_component('TheoremList', theorems: @theorems, query: @query, user: current_user) %>
 
