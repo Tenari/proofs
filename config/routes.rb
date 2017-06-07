@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   resources :comments
   get '/theorems/:id/objections' => 'theorems#objections', as: :theorem_objections
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
+  get "/:handle_or_id" => 'users#show', as: :user
+  get "/:handle_or_id/theorems" => 'users#theorems', as: :user_theorems
+  match "/:id" => 'users#update', as: :update_user, via: [:patch, :put]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

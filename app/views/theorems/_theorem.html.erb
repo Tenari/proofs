@@ -19,7 +19,7 @@
       <% objection = obj.counter_theorem %>
       <tr>
         <td><a href="<%=build_path(objection)%>"><%= objection.text %></a></td>
-        <td><%= objection.user.name %></td>
+        <td><a href="<%=user_path(objection.user.handle || objection.user.id)%>"><%= objection.user.name %></a></td>
       </tr>
     <% end %>
     <% if theorem.objections.count == 0 %>

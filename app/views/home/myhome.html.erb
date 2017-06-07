@@ -1,0 +1,24 @@
+<div class="page-container">
+  <% if current_user.handle.nil? %>
+    you need to pick a handle (username):
+    <%= form_for(current_user) do |f| %>
+      <% if @user && @user.errors.any? %>
+       <div id="error_explanation">
+         <ul>
+           <% @user.errors.full_messages.each do |message| %>
+             <li><%= message %></li>
+           <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="field">
+        <%= f.text_field :handle %>
+      </div>
+      <%= f.submit %>
+    <% end %>
+  <% else %>
+    Activity Feed (shows comments/objections/prs on theorems + users you are following)<br>
+    New Theorems (site-wide root-theorem feed)<br>
+    Notifications<br>
+  <% end %>
+</div>

@@ -27,7 +27,7 @@ var Arguments = React.createClass({
           {_.map(theorem.arguments, function(argument) {
             return <tr>
               <td><a href="#" onClick={() => that.setState({argument: JSON.parse(JSON.stringify(argument))})}>{argument.title}</a></td>
-              <td>{theorem.user.name}</td>
+              <td><a href={"/"+ (theorem.user.handle || theorem.user.id)}>{theorem.user.name}</a></td>
             </tr>;
           })}
           {noneMessage}

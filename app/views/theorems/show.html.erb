@@ -10,14 +10,14 @@
 
   <div class="page-titles">
     <% if @path.count == 0 %>
-      <p class="heading"><%=@theorem.text%></p>
+      <p class="heading"><%=@theorem.text%> <span class="byline">by <%=@theorem.user.name%></span></p>
     <% else %>
       <p><a href="<%=theorem_path%>"><%=@theorem.text%></a></p>
     <% end %>
     <% @path.each_with_index do |string, index| %>
       <% object = string.split(":").first.constantize.find(string.split(":").last) %>
       <% if index == @path.count - 1 %>
-        <p class="heading"><%=object.tree_name%></p>
+        <p class="heading"><%=object.tree_name%> <span class="byline">by <%=object.user.name%></span></p>
       <% else %>
         <p><%=object.tree_symbol%> <a href="<%=theorem_path + "?" + {path: @path.take(index+1).join("/")}.to_query%>"><%=object.tree_name%></a></p>
       <% end %>

@@ -1,0 +1,4 @@
+<div class="page-container">
+  <h3><%= @user.name %>'s theorems</h3>
+  <%= react_component('TheoremList', theorems: @user.theorems.where(root: true).order('updated_at desc').limit(6), noSearch: true) %>
+</div>
