@@ -52,7 +52,7 @@
   <% if current_user %>
     <%= react_component('NewComment', object: {id: @display_object.id, type: @display_object.class.to_s}, user: current_user) %>
   <% else %>
-    <%= link_to "Sign in to make a new comment", (user_omniauth_authorize_path(:facebook) + '?' + {origin: request.path}.to_query) %>
+    <%= link_to "Sign in to make a new comment", (login_choices_path + '?' + {origin: request.path}.to_query) %>
   <% end %>
 </div>
 
