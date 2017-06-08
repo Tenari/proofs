@@ -50,3 +50,4 @@ gem 'dotenv-rails', :groups => [:development, :test]
 gem 'cancan'
 
 gem 'redcarpet'
+gem "font-awesome-rails"

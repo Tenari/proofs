@@ -9,14 +9,9 @@
 <body>
   <% link = current_user ? theorems_path : '/' %>
   <div class="site-header">
-    <% if user_signed_in? %>
-      <div class="stub">
-        <div><%=current_user.name%></div>
-      </div>
-    <% end %>
     <a href="<%=link%>">Most people purporting to wisdom dare not engage in dialogue, lest they reveal the paucity of their assumptions and the frailty of their convictions.</a>
     <% if user_signed_in? %>
-      <div class="user-welcome"><%=current_user.name%></div>
+      <div class="user-welcome"><span><%=current_user.name%></span> <a href="<%=new_theorem_path%>"><i class="fa fa-plus"></i></a></div>
     <% end %>
   </div>
   <% unless user_signed_in? %>
