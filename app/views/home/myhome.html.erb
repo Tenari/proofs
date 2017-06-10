@@ -17,8 +17,27 @@
       <%= f.submit %>
     <% end %>
   <% else %>
-    Activity Feed (shows comments/objections/prs on theorems + users you are following)<br>
-    New Theorems (site-wide root-theorem feed)<br>
+    <!--Activity Feed (shows comments/objections/prs on theorems + users you are following)<br> --!>
+    <!--New Theorems (site-wide root-theorem feed)<br> --!>
     Notifications<br>
+    <div class="notifications-feed">
+      <% @notifications.each do |theorem, array| %>
+        <div class="theorem-notifications">
+          <div class="theorem-title">On <a href="<%=theorem_path(theorem)%>"><%=theorem.text%></a></div>
+          <% array.each do |notification| %>
+            <% if notification.object.is_a?(Comment) %>
+              <% comment = notification.object %>
+              <a href="<%=theorem_path(theorem) + "#comment-#{comment.id}"%>" class="notification <%=notification.viewed ? 'old' : 'new'%>">
+               <% unless notification.viewed %>
+                 <span class="new-indicator">New</span>
+               <% end %>
+                <%= render partial: 'comments/comment', locals:{ comment: comment, nolink: true }%>
+              </a>
+            <% end %>
+            <% notification.viewed! unless notification.viewed %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
