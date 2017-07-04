@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   end
 
   def self.from_omniauth(auth)
+    puts auth.provider
+    puts auth.uid
     user = where(provider: auth.provider, uid: auth.uid).first_or_create
     puts user.id
     puts "first or created"
